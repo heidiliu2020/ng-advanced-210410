@@ -1,4 +1,3 @@
-import { ColorsComponent } from './utilities/colors/colors.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -11,16 +10,10 @@ const routes: Routes = [
   { path: 'page1', component: Page1Component },
   { path: 'page2', component: Page2Component },
   { path: 'dashboard', component: DashboardComponent },
-  {
-    path: 'utilities', // 無元件路由 (僅包含子路由)
-    children: [
-      { path: 'color', component: ColorsComponent },
-      { path: 'color/:type', component: ColorsComponent }
-    ]
-  },
 
   // 箭頭涵式可知為 callback，並且是 Promise 要用 then 接住
   { path: 'components', loadChildren: () => import('./components/components.module').then(m => m.ComponentsModule) },
+  { path: 'utilities', loadChildren: () => import('./utilities/utilities.module').then(m => m.UtilitiesModule) },
   { path: '**', component: NotFoundComponent}
 ];
 
