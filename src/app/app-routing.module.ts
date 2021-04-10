@@ -16,7 +16,8 @@ const routes: Routes = [
   // { path: 'utilities/colors', component: ColorsComponent },
   { path: 'utilities', // 無元件路由 (僅包含子路由)
     children: [
-      { path: 'colors', component: ColorsComponent }
+      { path: 'color', component: ColorsComponent },
+      { path: 'color/:type', component: ColorsComponent }
     ]
   },
   { path: '**', component: NotFoundComponent}
