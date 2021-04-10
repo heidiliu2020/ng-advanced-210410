@@ -32,6 +32,18 @@ export class ColorsComponent implements OnInit {
   }
 
   plusOne() {
-    this.router.navigate(['/utilities/color', this.type + 1])
+    // 1
+    // this.router.navigate(['/utilities/color', this.type + 1])
+
+    // 2
+    // this.router.navigate(['../', this.type + 1], { relativeTo: this.route })
+
+    // 3 queryParamsHandling 保留參數 page: 1
+    this.router.navigate(['/utilities/color/', this.type + 1], {
+      queryParamsHandling: 'merge',
+      queryParams: {
+        page: 1
+      }
+    })
   }
 }

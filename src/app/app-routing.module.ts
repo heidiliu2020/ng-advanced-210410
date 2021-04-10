@@ -14,6 +14,8 @@ const routes: Routes = [
 
   // 方法一
   // { path: 'utilities/colors', component: ColorsComponent },
+
+  // 方法二
   { path: 'utilities', // 無元件路由 (僅包含子路由)
     children: [
       { path: 'color', component: ColorsComponent },
