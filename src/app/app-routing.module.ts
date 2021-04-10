@@ -1,3 +1,4 @@
+import { ColorsComponent } from './utilities/colors/colors.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -10,6 +11,14 @@ const routes: Routes = [
   { path: 'page1', component: Page1Component },
   { path: 'page2', component: Page2Component },
   { path: 'dashboard', component: DashboardComponent },
+
+  // 方法一
+  // { path: 'utilities/colors', component: ColorsComponent },
+  { path: 'utilities', // 無元件路由 (僅包含子路由)
+    children: [
+      { path: 'colors', component: ColorsComponent }
+    ]
+  },
   { path: '**', component: NotFoundComponent}
 ];
 
