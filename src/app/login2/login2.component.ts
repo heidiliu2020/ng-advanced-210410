@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   templateUrl: './login2.component.html',
@@ -41,17 +41,38 @@ export class Login2Component implements OnInit, OnDestroy {
         updateOn: 'change'
       }),
       isRememberMe: true,
-      extra: this.fb.group({
-        name: this.fb.control(''),
-        tel: this.fb.control('')
-      })
+      extra: this.fb.array([
+        this.makeExtra(),
+        this.makeExtra()
+      ])
     });
   }
+
+  // 建立 extra 欄位
+  makeExtra() {
+    return this.fb.group({
+      name: this.fb.control(''),
+      tel: this.fb.control('')
+    })
+  }
+
+
 
   showError(name, validation) {
     return this.form.get(name).invalid
       && this.form.get(name).dirty
       && this.form.get(name).errors[validation];
+  }
+
+  // 將建立好的 extra 加入現有的陣列中
+  addExtra() {
+    let extra = this.getFormArray('extra');
+    extra.push(this.makeExtra());
+  }
+
+  // 轉型成 FormArray
+  getFormArray(name: string) {
+    return this.form.get(name) as FormArray;
   }
 
   onSubmit(form: FormGroup) {
