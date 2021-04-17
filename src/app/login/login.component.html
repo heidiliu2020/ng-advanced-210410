@@ -1,10 +1,7 @@
 <div class="container">
-
   <!-- Outer Row -->
   <div class="row justify-content-center">
-
     <div class="col-xl-10 col-lg-12 col-md-9">
-
       <div class="card o-hidden border-0 shadow-lg my-5">
         <div class="card-body p-0">
           <!-- Nested Row within Card Body -->
@@ -15,36 +12,43 @@
                 <div class="text-center">
                   <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                 </div>
-                <!-- ng-debug -->
                 <pre>data = {{ data | json }}</pre>
                 <pre>form.value = {{ form.value | json }}</pre>
-                <form class="user" #form="ngForm">
+                <form class="user" #form="ngForm" [class.was-validated]="form.touched && form.invalid">
                   <div class="form-group">
                     <input type="email" class="form-control form-control-user"
                            aria-describedby="emailHelp" placeholder="Enter Email Address..."
-                           [(ngModel)]="data.email" #mEmail="ngModel" name="email">
-        <pre>
-          value = {{ mEmail.value | json }}
-          pristine = {{ mEmail.pristine | json }}
-          dirty = {{ mEmail.dirty | json }}
-          touched = {{ mEmail.touched | json }}
-          untouched = {{ mEmail.untouched | json }}
-          enabled = {{ mEmail.enabled | json }}
-          disabled = {{ mEmail.disabled | json }}
-          valid = {{ mEmail.valid | json }}
-          invalid = {{ mEmail.invalid | json }}
-          status = {{ mEmail.status | json }}
-          errors = {{ mEmail.errors | json }}
-        </pre>
+                           [(ngModel)]="data.email" #mEmail="ngModel" name="email" required email>
+                           <!-- 另一種寫法 -->
+                           <!-- <div class="invalid-feedback" *ngIf="mEmail.touched && mEmail.errors?.required">請輸入 Email</div>                            -->
+                    <div class="invalid-feedback" *ngIf="mEmail.invalid && mEmail.dirty && mEmail.errors.required">請輸入 Email</div>
+                    <div class="invalid-feedback" *ngIf="mEmail.invalid && mEmail.dirty && mEmail.errors.email">請輸入正確的 Email 格式</div>
+<pre>value = {{ mEmail.value | json }}
+pristine = {{ mEmail.pristine | json }}
+dirty = {{ mEmail.dirty | json }}
+touched = {{ mEmail.touched | json }}
+untouched = {{ mEmail.untouched | json }}
+enabled = {{ mEmail.enabled | json }}
+disabled = {{ mEmail.disabled | json }}
+valid = {{ mEmail.valid | json }}
+invalid = {{ mEmail.invalid | json }}
+status = {{ mEmail.status | json }}
+errors = {{ mEmail.errors | json }}
+</pre>
                   </div>
                   <div class="form-group">
                     <input type="password" class="form-control form-control-user" placeholder="Password"
-                           [(ngModel)]="data.password" #mPassword="ngModel" name="password" >
+                      [(ngModel)]="data.password" #mPassword="ngModel" name="password"
+                      required minlength="3" maxlength="32" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{3,32}$">
+                    <div class="invalid-feedback" *ngIf="mPassword.invalid && mPassword.errors.required">請輸入密碼</div>
+                    <div class="invalid-feedback" *ngIf="mPassword.invalid && mPassword.errors.minlength">密碼請輸入至少 {{mPassword.errors.minlength.requiredLength}} 個字元</div>
+                    <div class="invalid-feedback" *ngIf="mPassword.invalid && mPassword.errors.pattern">請輸入符合規定的密碼</div>
+                    <pre>errors = {{ mPassword.errors | json }}</pre>
                   </div>
                   <div class="form-group">
                     <div class="custom-control custom-checkbox small">
                       <input type="checkbox" class="custom-control-input"
-                             [(ngModel)]="data.isRememberMe" #mIsRememberMe="ngModel" name="isRememberMe">
+                        [(ngModel)]="data.isRememberMe" #mIsRememberMe="ngModel" name="isRememberMe">
                       <label class="custom-control-label" for="customCheck">Remember Me</label>
                     </div>
                   </div>
@@ -53,11 +57,9 @@
                   </button>
                   <hr>
                   <a href="index.html" class="btn btn-google btn-user btn-block">
-                    <i class="fab fa-google fa-fw"></i> Login with Google
-                  </a>
+                    <i class="fab fa-google fa-fw"></i> Login with Google </a>
                   <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                    <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                  </a>
+                    <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook </a>
                 </form>
                 <hr>
                 <div class="text-center">
@@ -71,9 +73,6 @@
           </div>
         </div>
       </div>
-
     </div>
-
   </div>
-
 </div>
