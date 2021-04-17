@@ -42,21 +42,24 @@ export class Login2Component implements OnInit, OnDestroy {
       }),
       isRememberMe: true,
       extra: this.fb.array([
-        this.makeExtra(),
         this.makeExtra()
       ])
     });
   }
 
-  // 建立 extra 欄位
+  // 建立 extra 欄位 & 給預設值
   makeExtra() {
     return this.fb.group({
-      name: this.fb.control(''),
-      tel: this.fb.control('')
+      name: this.makeControl('輸入您的姓名(Name)'),
+      tel: this.makeControl('輸入您的電話(09xx000000)')
     })
   }
 
-
+  makeControl(placeholder: string) {
+    let ctl = this.fb.control('');
+    ctl['placeholder'] = placeholder;
+    return ctl;
+  }
 
   showError(name, validation) {
     return this.form.get(name).invalid
