@@ -1,5 +1,6 @@
 import { LayoutComponent } from './layout/layout.component';
 import { LoginComponent } from './login/login.component';
+import { Login2Component } from './login2/login2.component';
 import { AuthGuard } from './auth.guard';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NgModule } from '@angular/core';
@@ -21,6 +22,7 @@ const routes: Routes = [
       { path: 'utilities', loadChildren: () => import('./utilities/utilities.module').then(m => m.UtilitiesModule) },
     ]
   },
+  { path: 'login2', component: Login2Component },
   { path: 'login', component: LoginComponent },
   { path: '**', component: NotFoundComponent}
 ];
