@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   templateUrl: './login2.component.html',
@@ -25,23 +25,29 @@ export class Login2Component implements OnInit, OnDestroy {
     document.body.className = 'bg-gradient-primary';
 
     this.form = this.fb.group({
-      email: [
-        'user1@example.com',
-        [
-          Validators.required,  // 驗證是否有填寫
+      email: new FormControl('user2@example.com', {
+        validators: [
+          Validators.required,
           Validators.email
-        ]
-      ],
-      password: [
-        '123abcABC',
-        [
+        ],
+        updateOn: 'blur'    // 決定要驗證的時機點
+       }),
+      password: this.fb.control('123ABCabc', {
+        validators: [
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(32)
-        ]
-      ],
+        ],
+        updateOn: 'change'
+      }),
       isRememberMe: true
-    })
+    });
+  }
+
+  showError(name, validation) {
+    return this.form.get(name).invalid
+      && this.form.get(name).dirty
+      && this.form.get(name).errors[validation];
   }
 
   onSubmit(form: FormGroup) {
