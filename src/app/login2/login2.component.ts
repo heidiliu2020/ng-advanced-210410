@@ -8,9 +8,23 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 export class Login2Component implements OnInit, OnDestroy {
 
   data: any = {
-    email: 'user2@example.com',
-    password: '123defDef',
-    isRememberMe: true
+    "email": "hello123@gmail.com",
+    "password": "123abc",
+    "isRememberMe": true,
+    "extra": [
+      {
+        "name": "1111",
+        "tel": "1111"
+      },
+      {
+        "name": "2222",
+        "tel": "2222"
+      },
+      {
+        "name": "3333",
+        "tel": "3333"
+      }
+    ]
   };
 
   origClass = '';
@@ -41,10 +55,26 @@ export class Login2Component implements OnInit, OnDestroy {
         updateOn: 'change'
       }),
       isRememberMe: true,
-      extra: this.fb.array([
-        this.makeExtra()
-      ])
+      extra: this.fb.array([])
     });
+
+    // 用迴圈方式動態建立 extra 欄位
+    for (let i = 0; i< this.data.extra.length; i++) {
+      this.getFormArray('extra').push(this.makeExtra());
+    }
+    // setValue
+    this.form.setValue(this.data);
+  }
+
+  // reset
+  resetForm() {
+    // 先清空原本的 FormArray
+    this.getFormArray('extra').clear();
+
+    for (let i = 0; i < this.data.extra.length; i++) {
+      this.getFormArray('extra').push(this.makeExtra());
+    }
+    this.form.reset(this.data);
   }
 
   // 建立 extra 欄位 & 給預設值
