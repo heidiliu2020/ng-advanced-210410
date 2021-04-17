@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 
 @Component({
   templateUrl: './login2.component.html',
@@ -8,18 +8,27 @@ import { NgForm } from '@angular/forms';
 export class Login2Component implements OnInit, OnDestroy {
 
   data: any = {
-    email: 'user@example.com',
-    password: '1234abcd',
+    email: 'user1@example.com',
+    password: '123abcABC',
     isRememberMe: true
   };
 
   origClass = '';
 
-  constructor() { }
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    // 初始化背景色
     this.origClass = document.body.className;
     document.body.className = 'bg-gradient-primary';
+
+    this.form = this.fb.group({
+      email: 'user2example.com',
+      password: '456defDEF',
+      isRememberMe: false
+    })
   }
 
   onSubmit(form: NgForm) {
