@@ -1,5 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { isNationalIdentificationNumberValid } from 'taiwan-id-validator2'
+
+// 身分證字號驗證: 驗證成功回傳 null，驗證失敗回傳 object
+function ValidateTwid(c: FormControl): ValidationErrors | null {
+  if (!c.value) {
+    return null;
+  }
+  let result = isNationalIdentificationNumberValid(c.value);
+  if (result) {
+    return null;
+  } else {
+    return {
+      twid: true
+    };
+  }
+}
 
 @Component({
   templateUrl: './login2.component.html',
@@ -81,12 +97,19 @@ export class Login2Component implements OnInit, OnDestroy {
   makeExtra() {
     return this.fb.group({
       name: this.makeControl('輸入您的姓名(Name)'),
-      tel: this.makeControl('輸入您的電話(09xx000000)')
+      tel: this.makeControl('輸入您的電話(09xx000000)'),
+      twid: this.makeControl('輸入您的身分證字號', [ValidateTwid])    // 傳入自訂 function 進行驗證
     })
   }
 
-  makeControl(placeholder: string) {
+  // 建立 FormControl
+  makeControl(placeholder: string, validators?: ValidatorFn[]) {
     let ctl = this.fb.control('');
+    // 有傳入驗證器的欄位才需驗證
+    if (validators) {
+      ctl.setValidators(validators);
+    }
+    // 設定 formControl 的 placeholder 屬性
     ctl['placeholder'] = placeholder;
     return ctl;
   }
